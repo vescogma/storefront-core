@@ -1,8 +1,5 @@
 import { FluxCapacitor } from 'groupby-api';
-import { Registry } from './configuration';
-import Service from './services/service';
-import System from './system';
-import { Configuration } from './types';
+import { Configuration, Registry, Service, System } from './core';
 
 export default class StoreFront {
 

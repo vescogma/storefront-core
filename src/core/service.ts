@@ -1,6 +1,6 @@
 import * as dot from 'dot-prop';
 import { camelCase } from 'lodash';
-import { DEFAULTS } from '../decorators';
+import { DEFAULTS } from '.';
 import StoreFront from '../storefront';
 
 namespace Service {
@@ -13,14 +13,14 @@ abstract class Service<T> {
   config: T;
   name: string;
 
-  constructor(private app: StoreFront) {
+  constructor(protected app: StoreFront) {
     const proto = Object.getPrototypeOf(this);
     this.name = camelCase(proto.constructor.name);
     this.config = {
       ...(proto.constructor[DEFAULTS] || {}),
       ...dot.get(app.config, `services.${this.name}`, {})
     };
-    app.registry.register(this.name, this.config);
+    app.registry.register('service', this.name, this.config);
   }
 
   abstract init(services: Service.Map): void;

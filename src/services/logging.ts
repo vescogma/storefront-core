@@ -1,6 +1,6 @@
 import * as log from 'loglevel';
+import { Service } from '../core';
 import StoreFront from '../storefront';
-import Service from './service';
 
 export default class Logging extends Service<any> {
 

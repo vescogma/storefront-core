@@ -1,7 +1,7 @@
 import { camelCase } from 'lodash';
-import SERVICES from './services';
-import Service from './services/service';
-import StoreFront from './storefront';
+import { Service } from '.';
+import SERVICES from '../services';
+import StoreFront from '../storefront';
 
 export const CORE_SERVICES = ['collections', 'filter'];
 
@@ -24,6 +24,6 @@ export default class System {
   }
 
   initMixin() {
-    
+
   }
 }

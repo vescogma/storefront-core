@@ -1,5 +1,5 @@
 import { Request } from 'groupby-api';
-import Service from './services/service';
+import { Service } from '.';
 
 export interface Configuration {
   customerId: string;
@@ -22,20 +22,27 @@ export interface Configuration {
   simpleAttach?: boolean;
 }
 
-export interface SimpleStructure {
-  title: string;
-  price: string;
-  id?: string;
-  url?: string;
+export namespace Structure {
+  export interface Base {
+    id: string;
+    title: string;
+    price: string;
 
-  _transform?: (metadata: any) => any;
+    url?: string;
+  }
+
+  export interface Tranformable extends Base {
+    _transform?: (metadata: any) => any;
+  }
+
+  export interface Variant {
+    field: string;
+    structure: Partial<Structure.Tranformable>;
+  }
 }
 
-export interface Structure extends SimpleStructure {
-  _variant?: {
-    field: string;
-    structure?: Partial<SimpleStructure>;
-  };
+export interface Structure extends Structure.Tranformable {
+  _variant?: Partial<Structure.Variant>;
 }
 
 export interface Configurable<T> { }

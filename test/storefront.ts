@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import * as core from '../src/core';
 import StoreFront from '../src/storefront';
-import * as system from '../src/system';
 
 describe('StoreFront', () => {
   let sb: sinon.SinonSandbox;
@@ -10,7 +10,7 @@ describe('StoreFront', () => {
   afterEach(() => sb.restore());
 
   it('should be a singleton', () => {
-    sb.stub(system, 'default', () => ({
+    sb.stub(core, 'System', () => ({
       initServices: () => null,
       initMixin: () => null
     }));
