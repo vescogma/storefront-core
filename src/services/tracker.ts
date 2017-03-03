@@ -22,7 +22,8 @@ namespace Tracker {
     metadata?: {
       _search?: any;
       _viewProduct?: any;
-    } & any;
+      [key: string]: any;
+    };
   }
 }
 
