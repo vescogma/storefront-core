@@ -4,15 +4,13 @@ import { expect, sinon } from './_suite';
 
 describe('StoreFront', () => {
   let system: sinon.SinonStub;
-  let bootstrap: sinon.SinonSpy;
   let initServices: sinon.SinonSpy;
   let initMixin: sinon.SinonSpy;
 
   beforeEach(() => {
-    bootstrap = sinon.spy();
     initServices = sinon.spy();
     initMixin = sinon.spy();
-    system = sinon.stub(core, 'System', () => ({ bootstrap, initServices, initMixin }));
+    system = sinon.stub(core, 'System', () => ({ initServices, initMixin }));
   });
   afterEach(() => {
     sinon.restore();
@@ -39,23 +37,5 @@ describe('StoreFront', () => {
     const app = new StoreFront(<any>{});
 
     expect(system.calledWith(app)).to.be.true;
-  });
-
-  it('should bootstrap system', () => {
-    new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
-
-    expect(bootstrap.called).to.be.true;
-  });
-
-  it('should intialize services', () => {
-    new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
-
-    expect(initServices.called).to.be.true;
-  });
-
-  it('should intialize base riot mixin', () => {
-    new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
-
-    expect(initMixin.called).to.be.true;
   });
 });

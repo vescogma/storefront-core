@@ -1,5 +1,5 @@
 import { Request } from 'groupby-api';
-import StoreFront from '../storefront';
+import { Service } from '.';
 
 export interface Configuration {
   customerId: string;
@@ -13,7 +13,7 @@ export interface Configuration {
 
   tags?: { [key: string]: any };
 
-  services?: { [key: string]: { new (app: StoreFront): Service } | any | false };
+  services?: { [key: string]: Service<any> };
 
   query?: Partial<Request>;
 
@@ -45,12 +45,4 @@ export interface Structure extends Structure.Tranformable {
   _variant?: Partial<Structure.Variant>;
 }
 
-export namespace Service {
-  export interface Map { [key: string]: Service; }
-  export interface ConstructorMap { [key: string]: { new (app: StoreFront): Service }; }
-}
-
-export interface Service {
-  new (app: StoreFront): Service;
-  init(services: Service.Map): void;
-}
+export interface Configurable<T> { }

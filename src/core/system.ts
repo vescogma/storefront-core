@@ -1,29 +1,24 @@
-import { camelCase } from 'lodash';
 import { Service } from '.';
-import SERVICES from '../services';
 import StoreFront from '../storefront';
-
-export const CORE_SERVICES = ['collections', 'filter'];
 
 export default class System {
 
+  services: { [key: string]: Service };
+
   constructor(private app: StoreFront) { }
 
-  initServices() {
-    const constructors: Service.ConstructorMap = SERVICES.reduce((map, service) =>
-      Object.assign(map, { [camelCase(service.name)]: service }), {});
+  /**
+   * allow client to modify system before services are loaded
+   */
+  bootstrap() { }
 
-    const services: Service.Map = Object.keys(constructors)
-      .reduce((map, key) =>
-        Object.assign(map, { [key]: new constructors[key](this.app) }), {});
+  /**
+   * initialize all core and user-defined services
+   */
+  initServices() { }
 
-    Object.values(services)
-      .forEach((service) => service.init(services));
-
-    return Object.assign(this.app, { services });
-  }
-
-  initMixin() {
-
-  }
+  /**
+   * initialize the core riot mixin
+   */
+  initMixin() { }
 }

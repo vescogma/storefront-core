@@ -1,5 +1,5 @@
 import { FluxCapacitor } from 'groupby-api';
-import { Configuration, Registry, Service, System } from './core';
+import { Configuration, Service, System } from './core';
 
 export default class StoreFront {
 
@@ -7,8 +7,8 @@ export default class StoreFront {
 
   log: Log;
   flux: FluxCapacitor;
-  registry: Registry = new Registry();
-  services: { [key: string]: Service<any> };
+  // registry: Registry = new Registry();
+  services: { [key: string]: Service };
 
   constructor(public config: Configuration) {
     if (StoreFront._instance) {
@@ -18,6 +18,8 @@ export default class StoreFront {
     StoreFront._instance = this;
 
     const system = new System(this);
+
+    system.bootstrap();
     system.initServices();
     system.initMixin();
   }
