@@ -21,7 +21,7 @@ export default class StoreFront {
 
     const system = new System(this);
 
-    system.bootstrap(config, services);
+    system.bootstrap(services, config);
     system.initServices();
     system.initMixin();
   }

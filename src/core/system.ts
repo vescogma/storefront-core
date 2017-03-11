@@ -12,7 +12,7 @@ export default class System {
   /**
    * allow client to modify system before services are initialized
    */
-  bootstrap(config: Configuration, services: Service.Constructor.Map) {
+  bootstrap(services: Service.Constructor.Map, config: Configuration) {
     this.app.config = config;
 
     const servicesConfig = config.services || {};

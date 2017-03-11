@@ -21,7 +21,7 @@ describe('System', () => {
       const config: any = {};
       const system = new System(app);
 
-      system.bootstrap(config, {});
+      system.bootstrap({}, config);
 
       expect(app.config).to.eq(config);
     });
@@ -34,7 +34,7 @@ describe('System', () => {
       const extractUserServices = sinon.stub(System, 'extractUserServices');
       const buildServices = sinon.stub(System, 'buildServices').returns(builtServices);
 
-      system.bootstrap(<any>{}, services);
+      system.bootstrap(services, <any>{});
 
       expect(app.services).to.eq(builtServices);
       expect(extractUserServices.calledWith({})).to.be.true;
@@ -49,7 +49,7 @@ describe('System', () => {
       const extractUserServices = sinon.stub(System, 'extractUserServices').returns(servicesConfig);
       const buildServices = sinon.stub(System, 'buildServices');
 
-      system.bootstrap(<any>{ services: servicesConfig }, services);
+      system.bootstrap(services, <any>{ services: servicesConfig });
 
       expect(extractUserServices.calledWith(servicesConfig)).to.be.true;
       expect(buildServices.calledWith(app, { a: 'b', c: 'd1', e: 'f' }, servicesConfig)).to.be.true;
@@ -62,7 +62,7 @@ describe('System', () => {
       const system = new System(app);
       class MockService { }
 
-      system.bootstrap(<any>{ services: { mockService } }, {});
+      system.bootstrap({}, <any>{ services: { mockService } });
 
       expect(app.services.mockService).to.eq(service);
       expect(mockService.calledWith(app, {})).to.be.true;
@@ -73,7 +73,7 @@ describe('System', () => {
       const app: any = {};
       const system = new System(app);
 
-      system.bootstrap(<any>{ bootstrap }, {});
+      system.bootstrap({}, <any>{ bootstrap });
 
       expect(bootstrap.calledWith(app)).to.be.true;
     });

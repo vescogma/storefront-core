@@ -41,7 +41,7 @@ describe('StoreFront', () => {
       const config: any = {};
       new StoreFront(config); // tslint:disable-line:no-unused-new
 
-      expect(bootstrap.calledWith(config, services)).to.be.true;
+      expect(bootstrap.calledWith(services, config)).to.be.true;
     });
 
     it('should intialize services', () => {
