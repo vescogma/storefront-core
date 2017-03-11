@@ -13,7 +13,7 @@ export default class System {
    */
   bootstrap(services: Service.Constructor.Map) {
     const serviceConfig = this.app.config.services || {};
-    const allServices = { ...services, ...extractUserServices(serviceConfig) };
+    const allServices = { ...services, ...System.extractUserServices(serviceConfig) };
     this.app.services = Object.keys(allServices)
       .filter((key) => allServices[key][CORE] || serviceConfig[key] !== false)
       .reduce((svcs, key) => {
@@ -38,10 +38,10 @@ export default class System {
    * initialize the core riot mixin
    */
   initMixin() { }
-}
 
-export function extractUserServices(services: { [key: string]: any }): Service.Constructor.Map {
-  return Object.keys(services)
-    .filter((key) => typeof services[key] === 'function')
-    .reduce((svcs, key) => Object.assign(svcs, { [key]: services[key] }), {});
+  static extractUserServices(services: { [key: string]: any }): Service.Constructor.Map {
+    return Object.keys(services)
+      .filter((key) => typeof services[key] === 'function')
+      .reduce((svcs, key) => Object.assign(svcs, { [key]: services[key] }), {});
+  }
 }

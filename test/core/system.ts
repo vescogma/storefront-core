@@ -99,4 +99,31 @@ describe('System', () => {
       expect(bootstrap.calledWith(app)).to.be.true;
     });
   });
+
+  describe('initServices()', () => {
+    it('should call init() on each service', () => {
+      const init1 = sinon.spy();
+      const init2 = sinon.spy();
+      const services = { s1: { init: init1 }, s2: { init: init2 } };
+      const system = new System(<any>{ services });
+
+      system.initServices();
+
+      expect(init1.calledWith(services)).to.be.true;
+      expect(init2.calledWith(services)).to.be.true;
+    });
+  });
+
+  describe('static', () => {
+    describe('extractUserServices()', () => {
+      it('should extract functions', () => {
+        const userService = () => null;
+        const services = { a: 'b', c: 4, e: true, userService };
+
+        const userServices = System.extractUserServices(services);
+
+        expect(userServices).to.eql({ userService });
+      });
+    });
+  });
 });
