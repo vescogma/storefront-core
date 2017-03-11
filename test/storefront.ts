@@ -21,41 +21,43 @@ describe('StoreFront', () => {
     }
   });
 
-  it('should be a singleton', () => {
-    const storefront = new StoreFront(<any>{});
+  describe('constructor()', () => {
+    it('should be a singleton', () => {
+      const storefront = new StoreFront(<any>{});
 
-    expect(storefront).to.be.ok;
-    expect(StoreFront._instance).to.eq(storefront);
-    expect(new StoreFront(<any>{})).to.eq(storefront);
-  });
+      expect(storefront).to.be.ok;
+      expect(StoreFront._instance).to.eq(storefront);
+      expect(new StoreFront(<any>{})).to.eq(storefront);
+    });
 
-  it('should set config', () => {
-    const config: any = {};
+    it('should set config', () => {
+      const config: any = {};
 
-    expect(new StoreFront(config).config).to.eq(config);
-  });
+      expect(new StoreFront(config).config).to.eq(config);
+    });
 
-  it('should intialize system', () => {
-    const app = new StoreFront(<any>{});
+    it('should intialize system', () => {
+      const app = new StoreFront(<any>{});
 
-    expect(system.calledWith(app)).to.be.true;
-  });
+      expect(system.calledWith(app)).to.be.true;
+    });
 
-  it('should bootstrap system', () => {
-    new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
+    it('should bootstrap system', () => {
+      new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
 
-    expect(bootstrap.called).to.be.true;
-  });
+      expect(bootstrap.called).to.be.true;
+    });
 
-  it('should intialize services', () => {
-    new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
+    it('should intialize services', () => {
+      new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
 
-    expect(initServices.called).to.be.true;
-  });
+      expect(initServices.called).to.be.true;
+    });
 
-  it('should intialize base riot mixin', () => {
-    new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
+    it('should intialize base riot mixin', () => {
+      new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
 
-    expect(initMixin.called).to.be.true;
+      expect(initMixin.called).to.be.true;
+    });
   });
 });

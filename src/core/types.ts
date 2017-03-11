@@ -11,11 +11,13 @@ export interface Configuration {
   visitorId?: string;
   sessionId?: string;
 
+  query?: Partial<Request>;
+
   tags?: { [key: string]: any };
 
-  services?: { [key: string]: { new (app: StoreFront): Service } | any | false };
+  services?: { [key: string]: Service.Constructor | any | false };
 
-  query?: Partial<Request>;
+  bootstrap?: (app: StoreFront) => void;
 
   stylish?: boolean;
   initialSearch?: boolean;
@@ -46,11 +48,17 @@ export interface Structure extends Structure.Tranformable {
 }
 
 export namespace Service {
-  export interface Map { [key: string]: Service; }
-  export interface ConstructorMap { [key: string]: { new (app: StoreFront): Service }; }
+  export namespace Constructor {
+    export type Map = { [key: string]: Constructor };
+  }
+
+  export interface Constructor {
+    new (app: StoreFront, config: any): Service;
+  }
+
+  export type Map = { [key: string]: Service };
 }
 
 export interface Service {
-  new (app: StoreFront): Service;
   init(services: Service.Map): void;
 }
