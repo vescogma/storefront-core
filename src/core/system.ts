@@ -1,5 +1,5 @@
 import * as riot from 'riot';
-import { Service } from '.';
+import { Configuration, Service } from '.';
 import StoreFront from '../storefront';
 
 export const CORE = Symbol('core');
@@ -12,18 +12,15 @@ export default class System {
   /**
    * allow client to modify system before services are initialized
    */
-  bootstrap(services: Service.Constructor.Map) {
-    const serviceConfig = this.app.config.services || {};
-    const allServices = { ...services, ...System.extractUserServices(serviceConfig) };
-    this.app.services = Object.keys(allServices)
-      .filter((key) => allServices[key][CORE] || serviceConfig[key] !== false)
-      .reduce((svcs, key) => {
-        const config = typeof serviceConfig[key] === 'object' ? serviceConfig[key] : {};
-        return Object.assign(svcs, { [key]: new allServices[key](this.app, config) });
-      }, {});
+  bootstrap(config: Configuration, services: Service.Constructor.Map) {
+    this.app.config = config;
 
-    if (typeof this.app.config.bootstrap === 'function') {
-      this.app.config.bootstrap(this.app);
+    const servicesConfig = config.services || {};
+    const allServices = { ...services, ...System.extractUserServices(servicesConfig) };
+    this.app.services = System.buildServices(this.app, allServices, servicesConfig);
+
+    if (typeof config.bootstrap === 'function') {
+      config.bootstrap(this.app);
     }
   }
 
@@ -42,8 +39,21 @@ export default class System {
     const { services } = this.app;
     const mixin = { services };
 
-    riot.mixin('storefront', mixin);
-    riot.mixin('sf', mixin);
+    if (this.app.config.globalMixin) {
+      riot.mixin(mixin);
+    } else {
+      riot.mixin('storefront', mixin);
+      riot.mixin('sf', mixin);
+    }
+  }
+
+  static buildServices(app: StoreFront, services: Service.Constructor.Map, config: any): Service.Map {
+    return Object.keys(services)
+      .filter((key) => services[key][CORE] || config[key] !== false)
+      .reduce((svcs, key) => {
+        const serviceConfig = typeof config[key] === 'object' ? config[key] : {};
+        return Object.assign(svcs, { [key]: new services[key](app, serviceConfig) });
+      }, {});
   }
 
   static extractUserServices(services: { [key: string]: any }): Service.Constructor.Map {

@@ -7,11 +7,12 @@ export default class StoreFront {
   static _instance: StoreFront;
 
   log: Log;
+  config: Configuration;
   flux: FluxCapacitor;
   // registry: Registry = new Registry();
   services: Service.Map;
 
-  constructor(public config: Configuration) {
+  constructor(config: Configuration) {
     if (StoreFront._instance) {
       return StoreFront._instance;
     }
@@ -20,7 +21,7 @@ export default class StoreFront {
 
     const system = new System(this);
 
-    system.bootstrap(services);
+    system.bootstrap(config, services);
     system.initServices();
     system.initMixin();
   }

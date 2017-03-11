@@ -22,6 +22,7 @@ export interface Configuration {
   stylish?: boolean;
   initialSearch?: boolean;
   simpleAttach?: boolean;
+  globalMixin?: boolean;
 }
 
 export namespace Structure {

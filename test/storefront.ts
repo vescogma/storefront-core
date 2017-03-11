@@ -1,4 +1,5 @@
 import * as core from '../src/core';
+import services from '../src/services';
 import StoreFront from '../src/storefront';
 import { expect, sinon } from './_suite';
 
@@ -30,12 +31,6 @@ describe('StoreFront', () => {
       expect(new StoreFront(<any>{})).to.eq(storefront);
     });
 
-    it('should set config', () => {
-      const config: any = {};
-
-      expect(new StoreFront(config).config).to.eq(config);
-    });
-
     it('should intialize system', () => {
       const app = new StoreFront(<any>{});
 
@@ -43,9 +38,10 @@ describe('StoreFront', () => {
     });
 
     it('should bootstrap system', () => {
-      new StoreFront(<any>{}); // tslint:disable-line:no-unused-new
+      const config: any = {};
+      new StoreFront(config); // tslint:disable-line:no-unused-new
 
-      expect(bootstrap.called).to.be.true;
+      expect(bootstrap.calledWith(config, services)).to.be.true;
     });
 
     it('should intialize services', () => {
