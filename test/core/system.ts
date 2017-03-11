@@ -1,3 +1,4 @@
+import * as riot from 'riot';
 import { System } from '../../src/core';
 import { core } from '../../src/core/system';
 import { expect, sinon } from '../_suite';
@@ -111,6 +112,19 @@ describe('System', () => {
 
       expect(init1.calledWith(services)).to.be.true;
       expect(init2.calledWith(services)).to.be.true;
+    });
+  });
+
+  describe('initMixin()', () => {
+    it('should setup storefront mixin', () => {
+      const services = { a: 'b' };
+      const system = new System(<any>{ services });
+      const mixin = sinon.stub(riot, 'mixin');
+
+      system.initMixin();
+
+      expect(mixin.calledWith('storefront', { services })).to.be.true;
+      expect(mixin.calledWith('sf', { services })).to.be.true;
     });
   });
 

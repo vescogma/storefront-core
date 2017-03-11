@@ -1,3 +1,4 @@
+import * as riot from 'riot';
 import { Service } from '.';
 import StoreFront from '../storefront';
 
@@ -37,7 +38,13 @@ export default class System {
   /**
    * initialize the core riot mixin
    */
-  initMixin() { }
+  initMixin() {
+    const { services } = this.app;
+    const mixin = { services };
+
+    riot.mixin('storefront', mixin);
+    riot.mixin('sf', mixin);
+  }
 
   static extractUserServices(services: { [key: string]: any }): Service.Constructor.Map {
     return Object.keys(services)
