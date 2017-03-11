@@ -13,7 +13,7 @@ export default class System {
    * allow client to modify system before services are initialized
    */
   bootstrap(services: Service.Constructor.Map, config: Configuration) {
-    this.app.config = config;
+    this.app.config = Configuration.Transformer.transform(config);
 
     const servicesConfig = config.services || {};
     const allServices = { ...services, ...System.extractUserServices(servicesConfig) };

@@ -1,5 +1,5 @@
 import * as riot from 'riot';
-import { System } from '../../src/core';
+import { Configuration, System } from '../../src/core';
 import { core } from '../../src/core/system';
 import { expect, sinon } from '../_suite';
 
@@ -16,14 +16,17 @@ describe('System', () => {
   });
 
   describe('bootstrap()', () => {
-    it('should set config', () => {
+    it('should transform config', () => {
       const app: any = {};
       const config: any = {};
+      const finalConfig = {};
       const system = new System(app);
+      const transform = sinon.stub(Configuration.Transformer, 'transform').returns(finalConfig);
 
       system.bootstrap({}, config);
 
-      expect(app.config).to.eq(config);
+      expect(app.config).to.eq(finalConfig);
+      expect(transform.calledWith(config)).to.be.true;
     });
 
     it('should build services', () => {

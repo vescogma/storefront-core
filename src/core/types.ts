@@ -1,29 +1,4 @@
-import { Request } from 'groupby-api';
 import StoreFront from '../storefront';
-
-export interface Configuration {
-  customerId: string;
-  structure: Structure;
-
-  collection?: string;
-  area?: string;
-  language?: string;
-  visitorId?: string;
-  sessionId?: string;
-
-  query?: Partial<Request>;
-
-  tags?: { [key: string]: any };
-
-  services?: { [key: string]: Service.Constructor | any | false };
-
-  bootstrap?: (app: StoreFront) => void;
-
-  stylish?: boolean;
-  initialSearch?: boolean;
-  simpleAttach?: boolean;
-  globalMixin?: boolean;
-}
 
 export namespace Structure {
   export interface Base {
