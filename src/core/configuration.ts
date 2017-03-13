@@ -4,29 +4,29 @@ import StoreFront from '../storefront';
 import DEFAULTS from './defaults';
 
 namespace Configuration {
-  export namespace Transformer {
-    export function transform(rawConfig: Configuration): Configuration {
+  export const Transformer = { // tslint:disable-line:variable-name
+    transform(rawConfig: Configuration): Configuration {
       const config = Transformer.deprecationTransform(rawConfig);
       const finalConfig = Transformer.applyDefaults(config, DEFAULTS);
 
       Transformer.validate(finalConfig);
 
       return finalConfig;
-    }
+    },
 
     /**
      * transform to handle graceful deprecation of configuration
      */
-    export function deprecationTransform(config: Configuration): Configuration {
+    deprecationTransform(config: Configuration): Configuration {
       return config;
-    }
+    },
 
-    export function applyDefaults(config: Configuration, defaults: Partial<Configuration>): Configuration {
+    applyDefaults(config: Configuration, defaults: Partial<Configuration>): Configuration {
       return config;
-    }
+    },
 
-    export function validate(config: Configuration) { }
-  }
+    validate(config: Configuration) { }
+  };
 }
 
 interface Configuration {
